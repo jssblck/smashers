@@ -20,11 +20,13 @@ func HandleSmashCommand(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Create the interactive response that allows other users to join in
 	log.Printf("User '%s' is creating an arena", cmd.UserName)
-	cta := fmt.Sprintf("@here: **%s** is creating a new Smash arena!", cmd.UserName)
-	headerText := slack.NewTextBlockObject("mrkdwn", cta, false, false)
+	cta := fmt.Sprintf("@here: *%s* is creating a new online Smash arena. Join in!", cmd.UserName)
+	if cmd.Text != "" {
+		cta = fmt.Sprintf("@here: *%s* is creating a new Smash arena at *%s*. Join in!", cmd.UserName, cmd.Text)
+	}
 
+	headerText := slack.NewTextBlockObject("mrkdwn", cta, false, false)
 	joinText := slack.NewTextBlockObject("plain_text", "Join!", false, false)
 	joinBtn := slack.NewButtonBlockElement("", "join", joinText)
 
