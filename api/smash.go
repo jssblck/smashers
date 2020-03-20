@@ -22,16 +22,15 @@ func HandleSmashCommand(w http.ResponseWriter, r *http.Request) {
 
 	// Create the interactive response that allows other users to join in
 	log.Printf("User '%s' is creating an arena", cmd.UserName)
-	headerText := slack.NewTextBlockObject("mrkdwn", fmt.Sprintf("**%s** is creating a new Smash arena!", cmd.UserName), false, false)
-	headerSection := slack.NewSectionBlock(headerText, nil, nil)
+	cta := fmt.Sprintf("@here: **%s** is creating a new Smash arena!", cmd.UserName)
+	headerText := slack.NewTextBlockObject("mrkdwn", cta, false, false)
 
-	joinBtnText := slack.NewTextBlockObject("plan_text", "Join!", false, false)
-	joinBtn := slack.NewButtonBlockElement("", "join", joinBtnText)
-	actionBlock := slack.NewActionBlock("", joinBtn)
+	joinText := slack.NewTextBlockObject("plain_text", "Join!", false, false)
+	joinBtn := slack.NewButtonBlockElement("", "join", joinText)
 
 	msg := slack.NewBlockMessage(
-		headerSection,
-		actionBlock,
+		slack.NewSectionBlock(headerText, nil, nil),
+		slack.NewActionBlock("", joinBtn),
 	)
 	msg.ResponseType = "in_channel"
 
