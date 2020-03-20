@@ -27,12 +27,12 @@ func HandleSmashCommand(w http.ResponseWriter, r *http.Request) {
 	}
 
 	headerText := slack.NewTextBlockObject("mrkdwn", cta, false, false)
-	joinText := slack.NewTextBlockObject("plain_text", "Join!", false, false)
-	joinBtn := slack.NewButtonBlockElement("", "join", joinText)
+	// joinText := slack.NewTextBlockObject("plain_text", "Join!", false, false)
+	// joinBtn := slack.NewButtonBlockElement("", "join", joinText)
 
 	msg := slack.NewBlockMessage(
 		slack.NewSectionBlock(headerText, nil, nil),
-		slack.NewActionBlock("", joinBtn),
+		// slack.NewActionBlock("", joinBtn),
 	)
 	msg.ResponseType = "in_channel"
 
